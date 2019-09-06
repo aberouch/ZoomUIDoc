@@ -1,9 +1,14 @@
 import { storiesOf } from '@storybook/angular';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
+import { boolean, number, text, select, radios, withKnobs } from '@storybook/addon-knobs';
+
 
 import { Welcome, Button } from '@storybook/angular/demo';
 import { ZoomButtonComponent } from '@zoomui/button';
+import { ZoomCard } from '@zoomui/card';
+import {ZoomLoadingComponent} from '@zoomui/loading';
+import {ZoomNotificationComponent} from '@zoomui/notification';
 import { RaetButtonComponent } from '../app/raet-button/raet-button.component';
 
 storiesOf('Welcome', module).add('to Storybook', () => ({
@@ -11,49 +16,45 @@ storiesOf('Welcome', module).add('to Storybook', () => ({
   props: {},
 }));
 
-storiesOf('Button', module)
+storiesOf('Button', module);
 
-.add(
-    'Primary button',
-    () => ({
-      component: ZoomButtonComponent,
-    }),
-    { notes: 'My notes on a button with emojis' }
-  )
-  .add(
-    'Secondary',
-    () => ({
-      component: ZoomButtonComponent,
-      props: {
-        raetId: 'button02',
-        type: 'button',
-        mode: 'secondary',
-        onClick: action('raet button was clicked!'),
-      },
-    }),
-    { notes: 'Label is missing' }
-  )
-  .add(
-    'Disabled',
+const buttonStories = storiesOf('Button', module);
+const buttonTypes = {
+  primary: 'primary',
+  secondary: 'secondary',
+  link: 'link'
+};
+buttonStories.addDecorator(withKnobs);
+buttonStories.add(
+    'Button',
     () => ({
       component: ZoomButtonComponent,
       props: {
-        raetId: 'button02',
-        type: 'button',
-        mode: 'primary',
-        isDisabled: 'true',
-     },
+        mode: radios('mode', buttonTypes, 'primary', 'Button types'),
+        size: radios('size', {normal: '', medium: 'medium', small: 'small' }, '', 'Size')
+      }
     }),
     { notes: 'Label is missing' }
   )
-  ;
+;
 
+// NOTIFICATION COMPONENT
 
+const notificationStories = storiesOf('Notification', module);
+const notificationTypes = {
+  success: 'success',
+  alert: 'alert',
+  warning: 'warning'
+};
+notificationStories.addDecorator(withKnobs);
 
-storiesOf('Another Button', module).add('button with link to another story', () => ({
-  component: Button,
-  props: {
-    text: 'Go to Welcome Story',
-    onClick: linkTo('Welcome'),
-  },
-}));
+notificationStories.add(
+  'Warning notification',
+  () => ({
+    component: ZoomNotificationComponent,
+    props: {
+      mode: radios('mode', notificationTypes, 'success', '01'),
+    }
+  }),
+  { notes: 'My notes on a button with emojis' }
+);
