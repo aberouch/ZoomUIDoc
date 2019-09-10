@@ -34,7 +34,7 @@ buttonStories.add(
         size: radios('size', {normal: '', medium: 'medium', small: 'small' }, '', 'Size')
       }
     }),
-    { notes: 'Label is missing' }
+    { notes: 'This is the button documentation...' }
   )
 ;
 
@@ -44,7 +44,8 @@ const notificationStories = storiesOf('Notification', module);
 const notificationTypes = {
   success: 'success',
   alert: 'alert',
-  warning: 'warning'
+  warning: 'warning',
+  black: 'black'
 };
 notificationStories.addDecorator(withKnobs);
 
